@@ -71,6 +71,8 @@ func getRecommendation (c *gin.Context) {
 	}
 }
 
+
+// The methods below must be implement in the next version of the application.
 // R1.2.18	Ensure that the --audit-log-path argument is set
 // To be implemented 
 

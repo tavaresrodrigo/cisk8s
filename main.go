@@ -21,7 +21,7 @@ func main() {
 
 	router.GET("/etcdownership", fixEtcdOwnership)
 	router.GET("/kubecertauth", fixKubeCertAuth)
-	router.GET("/recommendations", getRecommendations)
+	router.GET("/recommendations", getRecommendation)
 	router.Run(":8080")
 
 }
@@ -40,8 +40,7 @@ func fixEtcdOwnership(c *gin.Context) {
 	}
 }
 
-// R1.2.6	Ensure that the --kubelet-certificate-authority argument is set to AlwaysAllow
-// Ensure the --authorization-mode=RBAC argument in  /etc/kubernetes/manifests/kube-apiserver.yaml is set to RBAC
+// R1.2.6 Ensure the --authorization-mode=RBAC argument in  /etc/kubernetes/manifests/kube-apiserver.yaml is set to RBAC
 func fixKubeCertAuth (c *gin.Context) {
 	input, err := ioutil.ReadFile("/etc/kubernetes/manifests/kube-apiserver.yaml")
 	if err != nil {
@@ -60,7 +59,7 @@ func fixKubeCertAuth (c *gin.Context) {
 }
 
 // Get the recommendations from the output of kube-bench in the node
-func getRecommendations (c *gin.Context) {
+func getRecommendation (c *gin.Context) {
 	input, err := os.Open("/opt/kube-bench/output/recommendations.txt")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError,gin.H{"message": "Error reading the recommendations.txt file"})
